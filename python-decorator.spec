@@ -1,28 +1,17 @@
 %global debug_package %{nil}
 %global pypi_name decorator
 
-#%if 0%{?rhel} && 0%{?rhel} <= 7
-%bcond_with python3
-#%else
-#%bcond_without python3
-#%endif
-
 Name:           python-%{pypi_name}
-Version:        4.3.0
-Release:        2%{?dist}
+Version:        5.2.1
+Release:        1%{?dist}
 Summary:        Module to simplify usage of decorators
 
 License:        BSD
 URL:            https://github.com/micheles/decorator
 Source0:        %pypi_source decorator
-#BuildArch:      %BuildArch
 
-BuildRequires:  python2-setuptools
-BuildRequires:  python2-devel
-%if %{with python3}
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-devel
-%endif # with python3
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python%{python3_pkgversion}-devel
 
 %description
 The aim of the decorator module is to simplify the usage of decorators for
@@ -30,17 +19,6 @@ the average programmer, and to popularize decorators usage giving examples
 of useful decorators, such as memoize, tracing, redirecting_stdout, locked,
 etc.  The core of this module is a decorator factory called decorator.
 
-%package -n python2-decorator
-Summary:        Module to simplify usage of decorators in python2
-%{?python_provide:%python_provide python2-decorator}
-
-%description -n python2-decorator
-The aim of the decorator module is to simplify the usage of decorators for
-the average programmer, and to popularize decorators usage giving examples
-of useful decorators, such as memoize, tracing, redirecting_stdout, locked,
-etc.  The core of this module is a decorator factory called decorator.
-
-%if %{with python3}
 %package -n python3-decorator
 Summary:        Module to simplify usage of decorators in python3
 %{?python_provide:%python_provide python3-decorator}
@@ -50,45 +28,34 @@ The aim of the decorator module is to simplify the usage of decorators for
 the average programmer, and to popularize decorators usage giving examples
 of useful decorators, such as memoize, tracing, redirecting_stdout, locked,
 etc.  The core of this module is a decorator factory called decorator.
-%endif # with python3
 
 %prep
 %autosetup -n %{pypi_name}-%{version}
 
 %build
-%py2_build
-%if %{with python3}
 %py3_build
-%endif # with python3
 
 %install
-%py2_install
-%if %{with python3}
 %py3_install
-%endif # with python3
 find %{buildroot} -name SOURCES.txt~ -exec rm -f {} \;
 
 %check
-%{__python2} setup.py test
-%if %{with python3}
 %{__python3} setup.py test
-%endif # with python3
 
-%files -n python2-%{pypi_name}
-%doc docs/README.rst
-%license LICENSE.txt
-%{python2_sitelib}/*
-
-%if %{with python3}
 %files -n python3-%{pypi_name}
 %doc docs/README.rst
 %license LICENSE.txt
 %{python3_sitelib}/decorator.py
 %{python3_sitelib}/decorator-*.egg-info/
 %{python3_sitelib}/__pycache__/*
-%endif # with python3
 
 %changelog
+* Fri Apr 24 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 5.2.1-1
+- Update to 5.2.1
+
+* Fri Apr 24 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 4.3.0-3
+- Modernize for AlmaLinux 10: python3 only, remove obsolete spec constructs
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
