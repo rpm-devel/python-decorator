@@ -2,12 +2,13 @@
 %global pypi_name decorator
 
 Name:           python-%{pypi_name}
-Version:        5.2.1
+Version:        5.3.1
 Release:        1%{?dist}
 Summary:        Module to simplify usage of decorators
 
-License:        BSD
+License:        BSD-3-Clause
 URL:            https://github.com/micheles/decorator
+ExclusiveArch:  x86_64 aarch64
 Source0:        %pypi_source decorator
 
 BuildRequires:  python%{python3_pkgversion}-setuptools
@@ -30,7 +31,7 @@ of useful decorators, such as memoize, tracing, redirecting_stdout, locked,
 etc.  The core of this module is a decorator factory called decorator.
 
 %prep
-%autosetup -n %{pypi_name}-%{version}
+%autosetup -p1 -n %{pypi_name}-%{version}
 
 %build
 %py3_build
@@ -50,6 +51,13 @@ find %{buildroot} -name SOURCES.txt~ -exec rm -f {} \;
 %{python3_sitelib}/__pycache__/*
 
 %changelog
+* Sat Jul 05 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 5.3.1-1
+- Update to 5.3.1
+- Verified Source0 (pypi_source macro) downloadable
+
+* Thu Jul 03 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 5.2.1-1
+- SPDX: BSD -> BSD-3-Clause; add ExclusiveArch: x86_64 aarch64; %%autosetup -p1
+
 * Fri Apr 24 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 5.2.1-1
 - Update to 5.2.1
 
